@@ -30,7 +30,7 @@ function updateCharCount() {
     charCountElement.textContent = `${charCount}/${maxChars}`;
 }
 
-function setUser(user) {
+function setUser(connection, user) {
     userInputElement.value = user;
     userInputElement.style.display = "none";
     saveUserButton.style.display = "none";
@@ -44,53 +44,53 @@ function setUser(user) {
 }
 
 function loadForm() {
+    const connection = new signalR.HubConnectionBuilder().withUrl("/liveChatHub").build();
+    connection.on("RejectedConnection", (err) => {
+        document.getElementById("connectingMessage").style.display = "none";
+        document.getElementById("connectionFailureMessage").style.display = "block";
+    });
+    connection.on("AcceptedConnection", () => {
+        sendButtonElement.disabled = false;
+        document.getElementById("connectingMessage").style.display = "none";
+        document.getElementById("connectionSuccessMessage").style.display = "block";
+        document.getElementById("connectionSuccessMessage").textContent = `Povezani ste kot ${sessionStorage.getItem("user")}`;
+        document.getElementById("chatForm").style.display = "block";
+    });
+    
+    
     if (sessionStorage.getItem("user") != null) {
-        setUser(sessionStorage.getItem("user"));
+        setUser(connection, sessionStorage.getItem("user"));
     }
     else {
         document.getElementById("usernameForm").style.display = "block";
-
-        const connection = new signalR.HubConnectionBuilder().withUrl("/liveChatHub").build();
-        connection.on("RejectedConnection", (err) => {
-            document.getElementById("connectingMessage").style.display = "none";
-            document.getElementById("connectionFailureMessage").style.display = "block";
-        });
-        connection.on("AcceptedConnection", () => {
-            sendButtonElement.disabled = false;
-            document.getElementById("connectingMessage").style.display = "none";
-            document.getElementById("connectionSuccessMessage").style.display = "block";
-            document.getElementById("connectionSuccessMessage").textContent = `Povezani ste kot ${sessionStorage.getItem("user")}`;
-            document.getElementById("chatForm").style.display = "block";
-        });
-
         userInputElement.addEventListener("keyup", function (event) {
             saveUserButton.disabled = event.target.value.trim().length === 0;
         });
-        saveUserButton.addEventListener('click', () => setUser(userInputElement.value));
-
-        messageInputElement.addEventListener("input", updateCharCount);
-        sendButtonElement.addEventListener("click", function (event) {
-            const user = userInputElement.value;
-            const message = messageInputElement.value;
-            if (user === "" || message === "")
-                return;
-
-            sendButtonElement.disabled = true;
-            connection.invoke("SendMessage", user, message)
-                .then(() => {
-                    messageInputElement.value = "";
-                    updateCharCount();
-                    sessionStorage.setItem("messageCooldownDelay", messageCooldownInSeconds.toString());
-                    updateMessageCooldownState();
-                    sessionStorage.setItem("messageCooldownInterval", setInterval(updateMessageCooldownState, 1000).toString());
-                })
-                .catch(function (err) {
-                    sendButtonElement.disabled = false;
-                    return console.error(err.toString());
-                });
-            event.preventDefault();
-        });
+        saveUserButton.addEventListener('click', () => setUser(connection, userInputElement.value));
     }
+
+    messageInputElement.addEventListener("input", updateCharCount);
+    sendButtonElement.addEventListener("click", function (event) {
+        const user = userInputElement.value;
+        const message = messageInputElement.value;
+        if (user === "" || message === "")
+            return;
+
+        sendButtonElement.disabled = true;
+        connection.invoke("SendMessage", user, message)
+            .then(() => {
+                messageInputElement.value = "";
+                updateCharCount();
+                sessionStorage.setItem("messageCooldownDelay", messageCooldownInSeconds.toString());
+                updateMessageCooldownState();
+                sessionStorage.setItem("messageCooldownInterval", setInterval(updateMessageCooldownState, 1000).toString());
+            })
+            .catch(function (err) {
+                sendButtonElement.disabled = false;
+                return console.error(err.toString());
+            });
+        event.preventDefault();
+    });
 }
 
 loadForm();

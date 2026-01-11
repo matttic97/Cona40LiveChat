@@ -53,12 +53,12 @@
     padding-top: 6px;
 }
 
-#charCount {
+#messageCharCount {
     font-size: 0.8rem;
     color: #666;
 }
 
-#sendButton {
+#sendMessageButton {
     background: none;
     border: none;
     color: #007bff;
@@ -69,11 +69,11 @@
     transition: background-color 0.2s ease;
 }
 
-#sendButton:hover:not(:disabled) {
+#sendMessageButton:hover:not(:disabled) {
     background-color: rgba(0, 123, 255, 0.15);
 }
 
-#sendButton:disabled {
+#sendMessageButton:disabled {
     color: #aaa;
     cursor: default;
 }
