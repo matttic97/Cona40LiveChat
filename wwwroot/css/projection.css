@@ -1,0 +1,53 @@
+#screen {
+    position: fixed;
+    inset: 0;
+    background: white;
+    font-family: system-ui;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+#screen::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, #c0fde3, #c397f3);
+    z-index: 0;
+}
+
+.message {
+    position: relative;
+    z-index: 1;
+    max-width: 85%;
+    width: fit-content;
+}
+
+.message-user {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    color: #333;
+}
+
+.message-bubble {
+    position: relative;
+    padding: 1rem 1.25rem;
+    border-radius: 1.25rem;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    color: #111;
+    background: white;
+    opacity: 0.8;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    overflow-wrap: break-word;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5170",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7171;http://localhost:5170",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AUTH__PasswordHash" : "fiwmG6AjX4gwFZIZkjv5LJZ4bcH8WlXEBSV+2XFE/Sk=",
+        "AUTH__PasswordSalt" : "swokW+cnIyDL8n+f90Zn+Q=="
+      }
+    }
+  }
+}

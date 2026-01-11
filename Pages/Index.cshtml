@@ -1,0 +1,52 @@
+﻿@page
+
+<link rel="stylesheet" href="~/css/messenger.css" />
+
+<div class="container mt-4">
+    
+    <div id="usernameForm" style="display: none">
+        <div class="row pt-3 mb-3 d-flex justify-content-center">
+            <div class="col-8">
+                <input type="text" id="userInput" class="form-control chat-input-wrapper" placeholder="Vnesite ime/vzdevek" required maxlength="20"/>
+            </div>
+        </div>
+        
+        <div class="row mb-2 d-flex justify-content-center">
+            <div class="col-4">
+                <button id="saveUserButton" type="button" class="btn btn-primary" disabled>Poveži se</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="connectingMessage" class="connecting-message" style="display: none">
+        Povezujem se...
+    </div>
+
+    <div id="connectionSuccessMessage" class="connecting-message" style="display: none"></div>
+
+    <div id="connectionFailureMessage" class="connecting-message" style="display: none">
+        Cona40ChatRoom je žal poln, poskusi kasneje!
+    </div>
+
+    <div id="chatForm" class="pt-3" style="display: none;">
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="position-relative chat-input-wrapper">
+
+                    <textarea id="messageInput" maxlength="250" placeholder="Vnesite sporočilo..." rows="3" required></textarea>
+
+                    <div class="chat-input-footer">
+                        <div id="messageCharCount">0/250</div>
+
+                        <button id="sendMessageButton" title="Pošlji" disabled>
+                            &#10148;
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/messenger.js"></script>

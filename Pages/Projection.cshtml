@@ -1,0 +1,13 @@
+@page
+@model Cona40LiveChat.Pages.Projection
+
+<link rel="stylesheet" href="~/css/projection.css" />
+
+<script>
+    window.authExpiresUtc = new Date('@(Model.AuthExpiresUtc.UtcDateTime.ToString("O"))');
+</script>
+
+<div id="screen"></div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/liveChat.js"></script>
