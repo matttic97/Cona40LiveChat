@@ -14,7 +14,7 @@ function updateMessageCooldownState() {
     if (timeout > 0) {
         sendButtonElement.disabled = true;
         sendButtonElement.innerHTML = `(${timeout.toString()}) ${btnDefaultTextContent}`;
-        sessionStorage.setItem("sendTimeout", (timeout - 1).toString());
+        sessionStorage.setItem("messageCooldownDelay", (timeout - 1).toString());
     }
     else {
         const timeoutInterval = parseInt(sessionStorage.getItem("messageCooldownInterval"), 10);
